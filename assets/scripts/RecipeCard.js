@@ -8,13 +8,13 @@ class RecipeCard extends HTMLElement {
 
     // EXPOSE - START (All expose numbers start with A)
     // A1. TODO - Attach the shadow DOM to this Web Component (leave the mode open)
-    let shadowEl = this.attachShadow({mode:open});
+    let shadowEl = this.attachShadow({mode:"open"});
     
     // A2. TODO - Create an <article> element - This will hold our markup once our data is set
     let articleElement = document.createElement('article');
 
     // A3. TODO - Create a style element - This will hold all of the styles for the Web Component
-    let styleElement = document.createElement('syle');
+    let styleElement = document.createElement('style');
 
     // A4. TODO - Insert all of the styles from cardTemplate.html into the <style> element you just made
     styleElement.innerHTML = `
@@ -93,7 +93,7 @@ class RecipeCard extends HTMLElement {
         color: #70757A;
         font-size: 12px;
       }
-    `; // note: need to use other kind of comma
+    `; // note: use of template literals which are the `` instead of ''
 
     // A5. TODO - Append the <style> and <article> elements to the Shadow DOM
     shadowEl.append(articleElement);
@@ -126,32 +126,32 @@ class RecipeCard extends HTMLElement {
     if (!data) return;
 
     // A6. TODO - Select the <article> we added to the Shadow DOM in the constructor
-    articleElement = shadowRoot.querySelector('article');
+    let articleElement = this.shadowRoot.querySelector('article'); // note; we still need 'this' in front of 'shadowRoot'
 
     // A7. TODO - Set the contents of the <article> with the <article> template given in
     //           cardTemplate.html and the data passed in (You should only have one <article>,
     //           do not nest an <article> inside another <article>). You should use Template
     //           literals (tempalte strings) and element.innerHTML for this.
     articleElement.innerHTML = `
-      <img src="https://link-to-article.com/recipe-thumbnail.jpg"
-        alt="Recipe Title">
+      <img src=${data['imgSrc']}
+        alt=${data['imgAlt']}
       <p class="title">
-        <a href="https://link-to-article.com">Title</a>
+        <a href=${data['titleLnk']}>${data['titleTxt']}</a>
       </p>
-      <p class="organization">The Chef's Organization</p>
+      <p class="organization">${data['organization']}</p>
       <div class="rating">
-        <span>5</span>
-        <img src="/assets/images/icons/5-star.svg" alt="5 stars">
-        <span>(500)</span>
+        <span>${data['rating']}</span>
+        <img src="/assets/images/icons/${data['rating']}-star.svg" alt="5 stars">
+        <span>(${data['numRatings']})</span>
       </div>
-      <time>50 min</time>
+      <time>${data['lengthTime']}</time>
       <p class="ingredients">
-        Comma, Separated, List, of, Ingredients
+      ${data['ingredients']}
       </p>
-    `;
+    `; // note: how varaible are called inside template literals
   }
 }
 
 // A8. TODO - Define the Class as a customElement so that you can create
 //           'recipe-card' elements
-customElements.define('recipe_card', RecipeCard);
+customElements.define('recipe-card', RecipeCard);
