@@ -121,7 +121,7 @@ class RecipeCard extends HTMLElement {
    *                          "ingredients": "string"
    *                        }
    */
-  set data(data) {
+  set data(data) { // note setters called differently then normal method ex. class.data = ...
     // If nothing was passed in, return
     if (!data) return;
 
